@@ -1,6 +1,11 @@
+import { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { ShoppingBagIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+
+import { AppContext } from '../../Context';
 
 export const Navbar = () => {
+  const context = useContext(AppContext);
   const activeStyle = 'text-sky-500 underline underline-offset-4';
   return (
     <nav className='flex justify-between items-center fixed z-10 w-full py-5 px-8 text-base bg-slate-100'>
@@ -55,7 +60,12 @@ export const Navbar = () => {
         </li>
       </ul>
       <ul className='flex items-center gap-3'>
-        <li className='text-gray-500'>jodeperezlo@platzi.com</li>
+        <li className='text-gray-500'>
+          <div className='flex gap-1 justify-center items-center'>
+            <EnvelopeIcon className='h-6 w-6' />
+            <p>jodeperezlo@platzi.com</p>
+          </div>
+        </li>
         <li>
           <NavLink
             to='/my-orders'
@@ -80,7 +90,18 @@ export const Navbar = () => {
             Sign In
           </NavLink>
         </li>
-        <li>🛒 0</li>
+        <li>
+          <div className='relative'>
+            <ShoppingBagIcon className='h-6 w-6' />{' '}
+            <span
+              className={`absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-medium leading-none text-red-100 transform translate-x-1/2 -translate-y-1/2 bg-red-500/80 rounded-full ${
+                context.count === 0 ? 'hidden' : ''
+              }`}
+            >
+              {context.count}
+            </span>
+          </div>
+        </li>
       </ul>
     </nav>
   );
